@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 // CRUD REQUESTS BELOW
+
 // get POPULAR movies
 app.get(`/popularMovies`, (req, res) => {
   axios({
