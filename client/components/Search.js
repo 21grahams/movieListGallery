@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 import axios from "axios";
 import MovieMap from "./MovieMap";
 import CircularProgress from "@mui/material/CircularProgress";
+
+const styles = {
+  root: {
+    display: "flex",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    flexWrap: 'wrap'
+  },
+};
 
 const Search = () => {
   const [searchedMovie, setSearchedMovie] = useState("");
@@ -32,7 +42,7 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <Box>
       <form onSubmit={handleMovieSearch}>
         <input
           value={searchedMovie}
@@ -42,14 +52,16 @@ const Search = () => {
         />
         <button onClick={handleMovieSearch}>Search</button>
       </form>
-      {movies.results ? (
-        movies.results.map((movie, index) => (
-          <MovieMap movieList={movie} key={index} />
-        ))
-      ) : (
-        <CircularProgress color="success" />
-      )}
-    </div>
+      <Box sx={styles.root}>
+        {movies.results ? (
+          movies.results.map((movie, index) => (
+            <MovieMap movieList={movie} key={index} />
+          ))
+        ) : (
+          <CircularProgress color="success" />
+        )}
+      </Box>
+    </Box>
   );
 };
 

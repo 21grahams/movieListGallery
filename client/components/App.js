@@ -1,6 +1,6 @@
+import { Box } from "@mui/material";
 import React from "react";
 import Search from "./Search";
-import { Box } from "@mui/material";
 
 const styles = {
   movieTitle: {
