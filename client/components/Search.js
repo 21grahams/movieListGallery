@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import axios from "axios";
 import MovieMap from "./MovieMap";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const styles = {
   root: {
+    display: "flex",
+    bgcolor: "black",
+    color: "white",
+    justifyContent: "space-between",
+    p: 4,
+    ml: -2,
+    mr: -2
+  },
+  movieOuterContainer: {
     display: "flex",
     justifyContent: "space-evenly",
     flexDirection: "row",
@@ -42,17 +51,29 @@ const Search = () => {
   };
 
   return (
-    <Box>
-      <form onSubmit={handleMovieSearch}>
-        <input
-          value={searchedMovie}
-          name="searchedMovie"
-          placeholder="Search Movie Here"
-          onChange={(e) => setSearchedMovie(e.target.value)}
-        />
-        <button onClick={handleMovieSearch}>Search</button>
-      </form>
+    <>
       <Box sx={styles.root}>
+        <Typography variant="h6" component="h3">
+          Favorites
+        </Typography>
+        <form onSubmit={handleMovieSearch}>
+          <input
+            value={searchedMovie}
+            name="searchedMovie"
+            placeholder="Search Movie Here..."
+            onChange={(e) => setSearchedMovie(e.target.value)}
+          />
+          <Button
+            variant="outlined"
+            size="small"
+            sx={{ ml: 1 }}
+            onClick={handleMovieSearch}
+          >
+            Search
+          </Button>
+        </form>
+      </Box>
+      <Box sx={styles.movieOuterContainer}>
         {movies.results ? (
           movies.results.map((movie, index) => (
             <MovieMap movieList={movie} key={index} />
@@ -61,7 +82,7 @@ const Search = () => {
           <CircularProgress color="success" />
         )}
       </Box>
-    </Box>
+    </>
   );
 };
 

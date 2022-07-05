@@ -1,22 +1,23 @@
-import { Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
 import Search from "./Search";
 
 const styles = {
-  movieTitle: {
+  titleText: {
     textAlign: "center",
     mt: -2,
+    color: "white",
   },
 };
 
 const App = () => {
   return (
-    <Box >
-      <Box component="h1" sx={styles.movieTitle}>
-        Movie Gallery App
-      </Box>
+    <>
+      <Typography variant="h6" component="h1" sx={styles.titleText}>
+        Movielist Gallery
+      </Typography>
       <Search />
-    </Box>
+    </>
   );
 };
 
