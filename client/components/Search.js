@@ -7,9 +7,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 const styles = {
   root: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     flexDirection: "row",
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
 };
 
