@@ -8,5 +8,6 @@ DROP TABLE IF EXISTS favorites;
 
 CREATE TABLE favorites (
   id SERIAL PRIMARY KEY,
-  description VARCHAR(1000)
+  movieID INT,
+  name VARCHAR(1000)
 );

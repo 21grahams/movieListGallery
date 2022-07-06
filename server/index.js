@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const queries = require("../database/index.js");
+const db = require("../database/queries.js");
 const config = require("../config/config.js");
 const axios = require("axios");
 const cors = require("cors");
@@ -29,9 +29,8 @@ app.get(`/popularMovies`, (req, res) => {
     });
 });
 
-
 // get SEARCHED movies
-app.get(`/getMovies/:id`, (req, res) => {
+app.get(`/searchedMovies/:id`, (req, res) => {
   axios({
     method: "get",
     url: `https://api.themoviedb.org/3/search/movie?api_key=${config.config}&query=${req.params.id}`,
@@ -42,6 +41,41 @@ app.get(`/getMovies/:id`, (req, res) => {
     .catch((err) => {
       res.status(401).send(err);
     });
+});
+
+// get FAVORITE movie
+app.get('/favoriteMovies', (req, res) => {
+  db.favoriteMovie((err, results) => {
+    if (err) {
+      res.status(404).send('Error with Favorite Movie: ', err)
+    } else {
+      res.status(200).send(results)
+    }
+  })
+})
+
+// post FAVORITE movie
+app.post("/postMovie", (req, res) => {
+  let newMovie = [req.body.id, req.body.name];
+  db.postMovie(newMovie, (err, results) => {
+    if (err) {
+      res.status(404).send("Error with Post Request");
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+// delete FAVORITE movie
+app.delete("/deleteMovie/:id", (req, res) => {
+  let id = req.params.id;
+  db.deleteMovie(id, (err, results) => {
+    if (err) {
+      res.status(400).send("Error with Delete Request");
+    } else {
+      res.send("Removed!");
+    }
+  });
 });
 
 // set port where server will listen

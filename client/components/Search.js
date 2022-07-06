@@ -12,7 +12,7 @@ const styles = {
     justifyContent: "space-between",
     p: 4,
     ml: -2,
-    mr: -2
+    mr: -2,
   },
   movieOuterContainer: {
     display: "flex",
@@ -29,7 +29,7 @@ const Search = () => {
   const handleMovieSearch = (e) => {
     e.preventDefault();
     axios
-      .get(`/getMovies/${searchedMovie}`)
+      .get(`/searchedMovies/${searchedMovie}`)
       .then((res) => setMovies(res.data))
       .catch((err) => console.log("Error With Movie Search", err));
     clearInput();
