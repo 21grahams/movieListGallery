@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-import axios from "axios";
 import MovieMap from "./MovieMap";
+import AddFavorite from "./Favorite";
 import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 
 const styles = {
   root: {
@@ -25,6 +26,11 @@ const styles = {
 const Search = () => {
   const [searchedMovie, setSearchedMovie] = useState("");
   const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    handlePopularMovieSearch();
+  }, []);
 
   const handleMovieSearch = (e) => {
     e.preventDefault();
@@ -42,9 +48,18 @@ const Search = () => {
       .catch((err) => console.log("Error With Popular Movie Display", err));
   };
 
-  useEffect(() => {
-    handlePopularMovieSearch();
-  }, []);
+  const addFavoriteMovie = (movie) => {
+    const newFavoriteList = [...favorites, movie];
+    setFavorites(newFavoriteList);
+  };
+
+  const removeFavoriteMovie = (movie) => {
+    const newFavoriteList = favorites.filter(
+      (favorites) => favorites.title !== movie.title
+    );
+
+    setFavorites(newFavoriteList);
+  };
 
   const clearInput = () => {
     setSearchedMovie("");
@@ -76,7 +91,13 @@ const Search = () => {
       <Box sx={styles.movieOuterContainer}>
         {movies.results ? (
           movies.results.map((movie, index) => (
-            <MovieMap movieList={movie} key={index} />
+            <MovieMap
+              movieList={movie}
+              key={index}
+              handleFavoriteClick={addFavoriteMovie}
+              handleDeleteFavoriteClick={removeFavoriteMovie}
+              favorites={favorites}
+            />
           ))
         ) : (
           <CircularProgress color="success" />
