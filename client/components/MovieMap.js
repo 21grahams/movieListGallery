@@ -30,8 +30,8 @@ const MovieMap = ({
   movieList,
   handleFavoriteClick,
   handleDeleteFavoriteClick,
-  favorites
-}) => {
+  searchEnabled
+}) => {  
   return (
     <Box container sx={styles.container}>
       <Box>
@@ -58,7 +58,7 @@ const MovieMap = ({
           handleFavoriteClick={handleFavoriteClick}
           handleDeleteFavoriteClick={handleDeleteFavoriteClick}
           movieList={movieList}
-          favorites={favorites}
+          searchEnabled={searchEnabled}
         />
       </Box>
     </Box>

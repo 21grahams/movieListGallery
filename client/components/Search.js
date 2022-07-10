@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import MovieMap from "./MovieMap";
-import AddFavorite from "./Favorite";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
@@ -27,10 +26,22 @@ const Search = () => {
   const [searchedMovie, setSearchedMovie] = useState("");
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
-
+  const [searchEnabled, setSearchedEnabled] = useState(false);
+  
   useEffect(() => {
     handlePopularMovieSearch();
   }, []);
+  
+  useEffect(() => {
+    const movieFavorites = JSON.parse(
+      localStorage.getItem('movieFavorites')
+      );
+      setFavorites(movieFavorites);
+    }, []);
+    
+    const saveToLocalStorage = (items) => {
+		localStorage.setItem('movieFavorites', JSON.stringify(items));
+	};
 
   const handleMovieSearch = (e) => {
     e.preventDefault();
@@ -39,6 +50,7 @@ const Search = () => {
       .then((res) => setMovies(res.data))
       .catch((err) => console.log("Error With Movie Search", err));
     clearInput();
+    setSearchedEnabled(true)
   };
 
   const handlePopularMovieSearch = () => {
@@ -51,6 +63,7 @@ const Search = () => {
   const addFavoriteMovie = (movie) => {
     const newFavoriteList = [...favorites, movie];
     setFavorites(newFavoriteList);
+    saveToLocalStorage(newFavoriteList);
   };
 
   const removeFavoriteMovie = (movie) => {
@@ -59,6 +72,7 @@ const Search = () => {
     );
 
     setFavorites(newFavoriteList);
+    saveToLocalStorage(newFavoriteList);
   };
 
   const clearInput = () => {
@@ -96,9 +110,9 @@ const Search = () => {
               key={index}
               handleFavoriteClick={addFavoriteMovie}
               handleDeleteFavoriteClick={removeFavoriteMovie}
-              favorites={favorites}
-            />
-          ))
+              searchEnabled={searchEnabled}
+              />
+            ))
         ) : (
           <CircularProgress color="success" />
         )}

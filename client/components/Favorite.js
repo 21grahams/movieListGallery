@@ -1,52 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
+
+const styles = {
+  overlay: {
+    color: "white",
+    position: "absolute",
+    mx: 1,
+    right: 30,
+    transition: "0.8s ease",
+    background: "rgba(0, 0, 0, 0.8)",
+    bottom: 10,
+    opacity: 0.1,
+    "&:hover": {
+      cursor: "pointer",
+      opacity: 1,
+    },
+  },
+  favoritesButton: {
+    position: "absolute",
+    right: 15,
+    bottom: 10,
+  },
+  deleteFavoritesButton: {
+    bgcolor: "red",
+    color: "white",
+    position: "absolute",
+    mx: 1,
+    right: 0,
+    bottom: 10,
+  },
+};
 
 const AddFavorite = ({
   handleFavoriteClick,
   handleDeleteFavoriteClick,
   movieList,
-  favorites
+  searchEnabled,
 }) => {
-  const [activeFavorite, setActiveFavorite] = useState(false);
+  const [storedAsFavorite, setStoredAsFavorite] = useState(false);
 
-  const styles = {
-    overlay: {
-      color: "white",
-      position: "absolute",
-      mx: 1,
-      right: 30,
-      transition: "0.8s ease",
-      background: "rgba(0, 0, 0, 0.8)",
-      bottom: 10,
-      opacity: 0.1,
-      "&:hover": {
-        cursor: "pointer",
-        opacity: 1,
-      },
-    },
-    favoritesButton: {
-      position: "absolute",
-      right: 15,
-      bottom: 10,
-    },
-    deleteFavoritesButton: {
-      bgcolor: "red",
-      color: "white",
-      position: "absolute",
-      mx: 1,
-      right: 0,
-      bottom: 10,
-    },
+  useEffect(() => {
+    const movieFavorites = JSON.parse(localStorage.getItem("movieFavorites"));
+    movieFavorites.forEach((favorite) => {
+      favorite.title === movieList.title && setStoredAsFavorite(true);
+    });
+    // searchEnabled && setStoredAsFavorite(false);
+  }, [storedAsFavorite]);
+
+
+  const handleToggle = () => {
+    setStoredAsFavorite(!storedAsFavorite);
   };
-
-  const toggleFav = () => {
-    setActiveFavorite(!activeFavorite);
-  };
-
   return (
     <>
-      {!activeFavorite && favorites ? (
-        <Box onClick={toggleFav}>
+      {!storedAsFavorite ? (
+        <Box onClick={handleToggle}>
           <Button
             onClick={() => handleFavoriteClick(movieList)}
             sx={styles.favoritesButton}
@@ -56,7 +64,7 @@ const AddFavorite = ({
           </Button>
         </Box>
       ) : (
-        <Box onClick={toggleFav}>
+        <Box onClick={handleToggle}>
           <Button
             onClick={() => handleDeleteFavoriteClick(movieList)}
             sx={styles.deleteFavoritesButton}
