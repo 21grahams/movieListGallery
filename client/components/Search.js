@@ -17,31 +17,32 @@ const styles = {
   movieOuterContainer: {
     display: "flex",
     justifyContent: "space-evenly",
-    flexDirection: "row",
     flexWrap: "wrap",
   },
 };
 
-const Search = () => {
+const Search = ({
+  movies,
+  setMovies,
+  searchEnabled,
+  setSearchedEnabled,
+  handleHome,
+}) => {
   const [searchedMovie, setSearchedMovie] = useState("");
-  const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [searchEnabled, setSearchedEnabled] = useState(false);
-  
+
   useEffect(() => {
     handlePopularMovieSearch();
   }, []);
-  
+
   useEffect(() => {
-    const movieFavorites = JSON.parse(
-      localStorage.getItem('movieFavorites')
-      );
-      setFavorites(movieFavorites);
-    }, []);
-    
-    const saveToLocalStorage = (items) => {
-		localStorage.setItem('movieFavorites', JSON.stringify(items));
-	};
+    const movieFavorites = JSON.parse(localStorage.getItem("movieFavorites"));
+    setFavorites(movieFavorites);
+  }, []);
+
+  const saveToLocalStorage = (items) => {
+    localStorage.setItem("movieFavorites", JSON.stringify(items));
+  };
 
   const handleMovieSearch = (e) => {
     e.preventDefault();
@@ -50,7 +51,7 @@ const Search = () => {
       .then((res) => setMovies(res.data))
       .catch((err) => console.log("Error With Movie Search", err));
     clearInput();
-    setSearchedEnabled(true)
+    setSearchedEnabled(true);
   };
 
   const handlePopularMovieSearch = () => {
@@ -92,6 +93,16 @@ const Search = () => {
             placeholder="Search Movie Here..."
             onChange={(e) => setSearchedMovie(e.target.value)}
           />
+          {searchEnabled && (
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{ ml: 1 }}
+              onClick={handleHome}
+            >
+              Back
+            </Button>
+          )}
           <Button
             variant="outlined"
             size="small"
@@ -111,8 +122,8 @@ const Search = () => {
               handleFavoriteClick={addFavoriteMovie}
               handleDeleteFavoriteClick={removeFavoriteMovie}
               searchEnabled={searchEnabled}
-              />
-            ))
+            />
+          ))
         ) : (
           <CircularProgress color="success" />
         )}

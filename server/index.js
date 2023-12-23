@@ -19,7 +19,7 @@ app.use(cors());
 app.get(`/popularMovies`, (req, res) => {
   axios({
     method: "get",
-    url: `https://api.themoviedb.org/3/movie/popular?api_key=${config.config}&language=en-US&page=1`,
+    url: `https://api.themoviedb.org/3/movie/popular?api_key=${config.API_KEY}&language=en-US&page=1`,
   })
     .then((response) => {
       res.send(response.data);
@@ -33,7 +33,7 @@ app.get(`/popularMovies`, (req, res) => {
 app.get(`/searchedMovies/:id`, (req, res) => {
   axios({
     method: "get",
-    url: `https://api.themoviedb.org/3/search/movie?api_key=${config.config}&query=${req.params.id}`,
+    url: `https://api.themoviedb.org/3/search/movie?api_key=${config.API_KEY}&query=${req.params.id}`,
   })
     .then((response) => {
       res.send(response.data);

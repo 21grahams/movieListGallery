@@ -30,10 +30,10 @@ const MovieMap = ({
   movieList,
   handleFavoriteClick,
   handleDeleteFavoriteClick,
-  searchEnabled
-}) => {  
+  searchEnabled,
+}) => {
   return (
-    <Box container sx={styles.container}>
+    <Box sx={styles.container}>
       <Box>
         <img
           src={`https://image.tmdb.org/t/p/w500/${movieList.poster_path}`}
