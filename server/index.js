@@ -44,24 +44,24 @@ app.get(`/searchedMovies/:id`, (req, res) => {
 });
 
 // get FAVORITE movie
-app.get('/favoriteMovies', (req, res) => {
+app.get("/favoriteMovies", (req, res) => {
   db.favoriteMovie((err, results) => {
     if (err) {
-      res.status(404).send('Error with Favorite Movie: ', err)
+      res.status(404).send("Error with Favorite Movie: ", err);
     } else {
-      res.status(200).send(results)
+      res.status(200).send(results);
     }
-  })
-})
+  });
+});
 
 // post FAVORITE movie
 app.post("/postMovie", (req, res) => {
   let newMovie = [req.body.id, req.body.name];
-  db.postMovie(newMovie, (err, results) => {
+  db.postMovie(newMovie, (err) => {
     if (err) {
-      res.status(404).send("Error with Post Request");
+      res.status(404).send("Error with Post Request: ", err);
     } else {
-      res.send(results);
+      res.send("Posted!");
     }
   });
 });
@@ -69,7 +69,7 @@ app.post("/postMovie", (req, res) => {
 // delete FAVORITE movie
 app.delete("/deleteMovie/:id", (req, res) => {
   let id = req.params.id;
-  db.deleteMovie(id, (err, results) => {
+  db.deleteMovie(id, (err) => {
     if (err) {
       res.status(400).send("Error with Delete Request");
     } else {

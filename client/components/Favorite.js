@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box, Button } from "@mui/material";
+import axios from "axios";
 
 const styles = {
   overlay: {
@@ -31,32 +32,32 @@ const styles = {
   },
 };
 
-const AddFavorite = ({
-  handleFavoriteClick,
-  handleDeleteFavoriteClick,
-  movieList,
-  searchEnabled,
-}) => {
-  const [storedAsFavorite, setStoredAsFavorite] = useState(false);
+const AddFavorite = ({ movieList, favoriteId, getFavoriteMovies }) => {
+  const handleFavoriteMovie = (movie) => {
+    const favoriteMovie = {
+      id: movie.id,
+      name: movie.original_title,
+    };
 
-  useEffect(() => {
-    const movieFavorites = JSON.parse(localStorage.getItem("movieFavorites"));
-    movieFavorites.forEach((favorite) => {
-      favorite.title === movieList.title && setStoredAsFavorite(true);
-    });
-    // searchEnabled && setStoredAsFavorite(false);
-  }, [storedAsFavorite]);
-
-
-  const handleToggle = () => {
-    setStoredAsFavorite(!storedAsFavorite);
+    axios
+      .post("/postMovie", favoriteMovie)
+      .then(getFavoriteMovies())
+      .catch((err) => console.log("Error Saving Favorite Movie: ", err));
   };
+
+  const handleRemoveFavoriteMovie = (movie) => {
+    axios
+      .delete(`/deleteMovie/${movie.id}`)
+      .then(getFavoriteMovies())
+      .catch((err) => console.log("Error Deleting Favorite Movie: ", err));
+  };
+
   return (
     <>
-      {!storedAsFavorite ? (
-        <Box onClick={handleToggle}>
+      {!favoriteId.includes(movieList.id) ? (
+        <Box>
           <Button
-            onClick={() => handleFavoriteClick(movieList)}
+            onClick={() => handleFavoriteMovie(movieList)}
             sx={styles.favoritesButton}
             variant="contained"
           >
@@ -64,9 +65,9 @@ const AddFavorite = ({
           </Button>
         </Box>
       ) : (
-        <Box onClick={handleToggle}>
+        <Box>
           <Button
-            onClick={() => handleDeleteFavoriteClick(movieList)}
+            onClick={(e) => handleRemoveFavoriteMovie(movieList)}
             sx={styles.deleteFavoritesButton}
           >
             Remove From Favorites

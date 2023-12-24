@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-import MovieMap from "./MovieMap";
-import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
 const styles = {
@@ -14,35 +12,15 @@ const styles = {
     ml: -2,
     mr: -2,
   },
-  movieOuterContainer: {
-    display: "flex",
-    justifyContent: "space-evenly",
-    flexWrap: "wrap",
-  },
 };
 
 const Search = ({
-  movies,
   setMovies,
   searchEnabled,
   setSearchedEnabled,
-  handleHome,
+  getPopularMovies,
 }) => {
   const [searchedMovie, setSearchedMovie] = useState("");
-  const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
-    handlePopularMovieSearch();
-  }, []);
-
-  useEffect(() => {
-    const movieFavorites = JSON.parse(localStorage.getItem("movieFavorites"));
-    setFavorites(movieFavorites);
-  }, []);
-
-  const saveToLocalStorage = (items) => {
-    localStorage.setItem("movieFavorites", JSON.stringify(items));
-  };
 
   const handleMovieSearch = (e) => {
     e.preventDefault();
@@ -52,28 +30,6 @@ const Search = ({
       .catch((err) => console.log("Error With Movie Search", err));
     clearInput();
     setSearchedEnabled(true);
-  };
-
-  const handlePopularMovieSearch = () => {
-    axios
-      .get("/popularMovies")
-      .then((res) => setMovies(res.data))
-      .catch((err) => console.log("Error With Popular Movie Display", err));
-  };
-
-  const addFavoriteMovie = (movie) => {
-    const newFavoriteList = [...favorites, movie];
-    setFavorites(newFavoriteList);
-    saveToLocalStorage(newFavoriteList);
-  };
-
-  const removeFavoriteMovie = (movie) => {
-    const newFavoriteList = favorites.filter(
-      (favorites) => favorites.title !== movie.title
-    );
-
-    setFavorites(newFavoriteList);
-    saveToLocalStorage(newFavoriteList);
   };
 
   const clearInput = () => {
@@ -98,7 +54,7 @@ const Search = ({
               variant="outlined"
               size="small"
               sx={{ ml: 1 }}
-              onClick={handleHome}
+              onClick={getPopularMovies}
             >
               Back
             </Button>
@@ -112,21 +68,6 @@ const Search = ({
             Search
           </Button>
         </form>
-      </Box>
-      <Box sx={styles.movieOuterContainer}>
-        {movies.results ? (
-          movies.results.map((movie, index) => (
-            <MovieMap
-              movieList={movie}
-              key={index}
-              handleFavoriteClick={addFavoriteMovie}
-              handleDeleteFavoriteClick={removeFavoriteMovie}
-              searchEnabled={searchEnabled}
-            />
-          ))
-        ) : (
-          <CircularProgress color="success" />
-        )}
       </Box>
     </>
   );

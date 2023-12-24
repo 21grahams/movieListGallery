@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+
 import AddFavorite from "./Favorite";
 
 const styles = {
@@ -28,10 +29,12 @@ const styles = {
 
 const MovieMap = ({
   movieList,
-  handleFavoriteClick,
-  handleDeleteFavoriteClick,
-  searchEnabled,
+  favorites,
+  getFavoriteMovies,
 }) => {
+  let favoriteId = [];
+  favorites && favorites?.map((favorite) => favoriteId.push(favorite.movieid));
+
   return (
     <Box sx={styles.container}>
       <Box>
@@ -55,10 +58,9 @@ const MovieMap = ({
           </strong>
         </Typography>
         <AddFavorite
-          handleFavoriteClick={handleFavoriteClick}
-          handleDeleteFavoriteClick={handleDeleteFavoriteClick}
           movieList={movieList}
-          searchEnabled={searchEnabled}
+          favoriteId={favoriteId}
+          getFavoriteMovies={getFavoriteMovies}
         />
       </Box>
     </Box>
