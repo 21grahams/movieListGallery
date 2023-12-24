@@ -37,8 +37,6 @@ const App = () => {
     setSearchedEnabled(false);
   };
 
-  console.log('movies: ',movies)
-
   const getFavoriteMovies = () => {
     axios
       .get("/favoriteMovies")
