@@ -8,7 +8,7 @@ import MovieMap from "./MovieMap";
 const styles = {
   titleText: {
     textAlign: "center",
-    mt: -2,
+    mt: -1,
     color: "white",
     cursor: "pointer",
   },

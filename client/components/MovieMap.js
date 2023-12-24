@@ -1,14 +1,14 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-import AddFavorite from "./Favorite";
+import AddFavorite from "./AddFavorite";
 
 const styles = {
   container: {
-    m: 4,
+    m: { xs: 6, sm: 4 },
     boxShadow: " 7px 10px 12px -5px rgba(0,0,0.56)",
     border: "1px solid",
-    width: "200px",
+    width: 200,
     maxWidth: "100%",
     textAlign: "center",
     minHeight: "550px",
@@ -20,18 +20,16 @@ const styles = {
     },
   },
   titleSpacing: {
-    m: 2,
+    p: 2,
   },
   releaseDate: {
-    p: 1,
+    position: "absolute",
+    left: 40,
+    bottom: 80,
   },
 };
 
-const MovieMap = ({
-  movieList,
-  favorites,
-  getFavoriteMovies,
-}) => {
+const MovieMap = ({ movieList, favorites, getFavoriteMovies }) => {
   let favoriteId = [];
   favorites && favorites?.map((favorite) => favoriteId.push(favorite.movieid));
 
@@ -45,24 +43,24 @@ const MovieMap = ({
           height={300}
         />
       </Box>
-      <Box sx={styles.titleSpacing} component="h2">
+      <Box sx={styles.titleSpacing} component="h3">
         {movieList.title}
       </Box>
       <Box>
         <Typography sx={styles.releaseDate}>
           Released:{" "}
-          <strong>
+          <strong style={{color: 'white'}}>
             {movieList.release_date
               ? movieList.release_date.slice(0, 4)
               : "No Information on Release Date"}
           </strong>
         </Typography>
-        <AddFavorite
-          movieList={movieList}
-          favoriteId={favoriteId}
-          getFavoriteMovies={getFavoriteMovies}
-        />
       </Box>
+      <AddFavorite
+        movieList={movieList}
+        favoriteId={favoriteId}
+        getFavoriteMovies={getFavoriteMovies}
+      />
     </Box>
   );
 };

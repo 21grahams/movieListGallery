@@ -3,20 +3,6 @@ import { Box, Button } from "@mui/material";
 import axios from "axios";
 
 const styles = {
-  overlay: {
-    color: "white",
-    position: "absolute",
-    mx: 1,
-    right: 30,
-    transition: "0.8s ease",
-    background: "rgba(0, 0, 0, 0.8)",
-    bottom: 10,
-    opacity: 0.1,
-    "&:hover": {
-      cursor: "pointer",
-      opacity: 1,
-    },
-  },
   favoritesButton: {
     position: "absolute",
     right: 15,

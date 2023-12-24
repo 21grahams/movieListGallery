@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button, Link } from "@mui/material";
 import axios from "axios";
 
 const styles = {
@@ -39,9 +39,11 @@ const Search = ({
   return (
     <>
       <Box sx={styles.root}>
-        <Typography variant="h6" component="h3">
-          Favorites
-        </Typography>
+        <Link href="/favorites">
+          <Button variant="outlined" component="h3">
+            Favorites
+          </Button>
+        </Link>
         <form onSubmit={handleMovieSearch}>
           <input
             value={searchedMovie}
