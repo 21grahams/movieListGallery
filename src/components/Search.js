@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Box, Button, Link } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import axios from "axios";
+import { Routes, Route, Link } from "react-router-dom";
+import Favorites from "../pages/Favorites";
 
 const styles = {
   root: {
@@ -39,11 +41,14 @@ const Search = ({
   return (
     <>
       <Box sx={styles.root}>
-        <Link href="/favorites">
+        <Link to="/favorites">
           <Button variant="outlined" component="h3">
             Favorites
           </Button>
         </Link>
+        <Routes>
+          <Route exact path="/favorites" element={<Favorites />} />
+        </Routes>
         <form onSubmit={handleMovieSearch}>
           <input
             value={searchedMovie}

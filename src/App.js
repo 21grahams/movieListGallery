@@ -2,8 +2,8 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-import Search from "./Search";
-import MovieMap from "./MovieMap";
+import Search from "./components/Search";
+import MovieMap from "./components/MovieMap";
 
 const styles = {
   titleText: {
@@ -72,7 +72,9 @@ const App = () => {
             />
           ))
         ) : (
-          <CircularProgress color="success" mt={25} />
+          <Box mt={25}>
+            <CircularProgress color="success" />
+          </Box>
         )}
       </Box>
     </>
