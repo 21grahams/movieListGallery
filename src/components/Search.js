@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import axios from "axios";
-import { Routes, Route, Link } from "react-router-dom";
-import Favorites from "../pages/Favorites";
 
 const styles = {
   root: {
@@ -18,6 +16,8 @@ const styles = {
 
 const Search = ({
   setMovies,
+  toggleFavorites,
+  setToggleFavorites,
   searchEnabled,
   setSearchedEnabled,
   getPopularMovies,
@@ -41,14 +41,13 @@ const Search = ({
   return (
     <>
       <Box sx={styles.root}>
-        <Link to="/favorites">
-          <Button variant="outlined" component="h3">
-            Favorites
-          </Button>
-        </Link>
-        <Routes>
-          <Route exact path="/favorites" element={<Favorites />} />
-        </Routes>
+        <Button
+          variant="outlined"
+          component="h3"
+          onClick={() => setToggleFavorites(!toggleFavorites)}
+        >
+          {toggleFavorites ? "Home" : "Favorites"}
+        </Button>
         <form onSubmit={handleMovieSearch}>
           <input
             value={searchedMovie}

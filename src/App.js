@@ -23,6 +23,7 @@ const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchEnabled, setSearchedEnabled] = useState(false);
   const [favorites, setFavorites] = useState([]);
+  const [toggleFavorites, setToggleFavorites] = useState(false);
 
   useEffect(() => {
     getFavoriteMovies();
@@ -56,10 +57,16 @@ const App = () => {
       </Typography>
       <Search
         setMovies={setMovies}
+        toggleFavorites={toggleFavorites}
+        setToggleFavorites={setToggleFavorites}
         searchEnabled={searchEnabled}
         setSearchedEnabled={setSearchedEnabled}
         getPopularMovies={getPopularMovies}
       />
+      {toggleFavorites &&
+        favorites.rows.map((favorite) => (
+          <Typography key={favorite.name}>{favorite.name}</Typography>
+        ))}
       <Box sx={styles.movieOuterContainer}>
         {movies.results ? (
           movies.results.map((movie, index) => (
